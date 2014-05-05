@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="font_family" format="string"/>
+    <attr name="font_weight" format="enum">
+        <enum name="HAIRLINE" value="100"/>
+        <enum name="LIGHT" value="200"/>
+        <enum name="BOOK" value="300"/>
+        <enum name="NORMAL" value="400"/>
+        <enum name="MEDIUM" value="500"/>
+        <enum name="SEMI_BOLD" value="600"/>
+        <enum name="BOLD" value="700"/>
+        <enum name="EXTRA_BOLD" value="800"/>
+        <enum name="POSTER" value="900"/>
+    </attr>
+    <attr name="font_width" format="enum">
+        <enum name="EXTRA_NARROW" value="1"/>
+        <enum name="NARROW" value="2"/>
+        <enum name="NORMAL" value="3"/>
+        <enum name="WIDE" value="4"/>
+        <enum name="EXTRA_WIDE" value="5"/>
+    </attr>
+    <attr name="caps_mode" format="enum">
+        <enum name="none" value="0"/>
+        <enum name="characters" value="1"/>
+        <enum name="words" value="2"/>
+        <enum name="sentences" value="3"/>
+    </attr>
+
+    <declare-styleable name="FontTextView">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="FontButton">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+</resources>

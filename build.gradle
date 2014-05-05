@@ -1,0 +1,88 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.github.goldin.plugins.gradle:about:0.3'
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        credentials {
+            username artifactoryUser
+            password artifactoryPassword
+        }
+        url "https://scopelybin.artifactoryonline.com/scopelybin/repo"
+    }
+
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+}
+
+apply plugin: 'android-library'
+apply plugin: 'maven'
+apply plugin: 'about'
+
+version = '0.1'
+
+about {
+    includeDependencies = ['compile', 'runtime']
+    prefix = '/'
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.1"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 18
+    }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+}
+
+dependencies {
+    compile 'com.intellij:annotations:12.0'
+}
+
+uploadArchives {
+    configuration = configurations.archives
+
+    repositories {
+        // the maven plugin features this deployer
+        mavenDeployer {
+            // we deploy to the release repository in this case
+            repository(url: artifactoryHost) {
+                authentication(userName: artifactoryUser, password: artifactoryPassword)
+            }
+            pom.project {
+                artifactId 'fontain'
+                name 'Fontain'
+                description 'Font Utils for Android'
+                packaging 'aar'
+                url 'https://github.com/scopely/fontain'
+            }
+        }
+    }
+}
