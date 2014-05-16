@@ -10,6 +10,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:0.9.+'
         classpath 'com.github.goldin.plugins.gradle:about:0.3'
+        classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
     }
 }
 
@@ -29,6 +30,7 @@ repositories {
 }
 
 apply plugin: 'android-library'
+apply plugin: 'robolectric'
 apply plugin: 'maven'
 apply plugin: 'about'
 
@@ -64,6 +66,8 @@ android {
 
 dependencies {
     compile 'com.intellij:annotations:12.0'
+    robolectricCompile 'junit:junit:4.11'
+    robolectricCompile 'org.robolectric:robolectric:2.2'
 }
 
 uploadArchives {
