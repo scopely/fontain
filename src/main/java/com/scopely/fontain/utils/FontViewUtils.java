@@ -26,10 +26,15 @@ import org.jetbrains.annotations.Nullable;
  */
 public class FontViewUtils {
 
+    public static final int CAPS_MODE_CHARACTERS = 1;
+    public static final int CAPS_MODE_WORDS = 2;
+    public static final int CAPS_MODE_SENTENCES = 3;
+    public static final int CAPS_MODE_NONE = 0;
+
     /**
      *
      * Called from the constructor of {@param view}, sets up the typeface and caps mode of the view based on its XML attributes
-     *  @param view The View being initialized
+     * @param view The View being initialized
      * @param context The context provided to the view's constructor
      * @param attributeSet the attribute set provided to the view's constructor, if present
      * @param fontManager the FontManager to pull fonts from. Usually Fontain.getFontManager()
@@ -57,26 +62,40 @@ public class FontViewUtils {
      * @param attributeSet
      * @return
      */
-    public static Typeface typefaceFromAttributeSet(Context context, AttributeSet attributeSet, FontManager fontManager) {
-        String fontFamilyName = null;
-        int fontWeight = 0;
-        int fontWidth = 0;
-        int textStyle = Typeface.NORMAL;
+    public static Typeface typefaceFromAttributeSet(Context context, @Nullable AttributeSet attributeSet, FontManager fontManager) {
         if (attributeSet != null) {
-            TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.FontTextView);
-            fontFamilyName = typedArray.getString(R.styleable.FontTextView_font_family);
-            fontWeight = typedArray.getInt(R.styleable.FontTextView_font_weight, 0);
-            fontWidth = typedArray.getInt(R.styleable.FontTextView_font_width, 0);
-            typedArray.recycle();
+            TypedArray fontArray = context.obtainStyledAttributes(attributeSet, R.styleable.FontTextView);
             int[] attributesTextStyle = {android.R.attr.textStyle};
-            typedArray = context.obtainStyledAttributes(attributeSet, attributesTextStyle);
-            textStyle = typedArray.getInt(0, textStyle);
-            typedArray.recycle();
+            TypedArray textStyleArray = context.obtainStyledAttributes(attributeSet, attributesTextStyle);
+            return typefaceFromTypedArrays(fontManager, fontArray, textStyleArray);
+        } else {
+            int fontWeight = 0;
+            int fontWidth = 0;
+            int textStyle = Typeface.NORMAL;
+            FontFamily fontFamily = fontManager.getDefaultFontFamily();
+            return typefaceForTextStyle(fontFamily, fontWeight, fontWidth, textStyle);
         }
+    }
+
+    public static Typeface typefaceFromTextAppearance(Context context, int textAppearanceResId, FontManager fontManager) {
+        TypedArray fontArray = context.obtainStyledAttributes(textAppearanceResId, R.styleable.FontTextView);
+        int[] attributesTextStyle = {android.R.attr.textStyle};
+        TypedArray textStyleArray = context.obtainStyledAttributes(textAppearanceResId, attributesTextStyle);
+        return typefaceFromTypedArrays(fontManager, fontArray, textStyleArray);
+    }
+
+    private static Typeface typefaceFromTypedArrays(FontManager fontManager, TypedArray fontArray, TypedArray textStyleArray) {
+        String fontFamilyName = fontArray.getString(R.styleable.FontButton_font_family);
+        int fontWeight = fontArray.getInt(R.styleable.FontTextView_font_weight, 0);
+        int fontWidth = fontArray.getInt(R.styleable.FontTextView_font_width, 0);
+        fontArray.recycle();
+        int textStyle = textStyleArray.getInt(0, Typeface.NORMAL);
+        textStyleArray.recycle();
 
         FontFamily fontFamily = fontManager.getFontFamily(fontFamilyName);
         return typefaceForTextStyle(fontFamily, fontWeight, fontWidth, textStyle);
     }
+
 
     /**
      *
@@ -128,24 +147,25 @@ public class FontViewUtils {
      * @return
      */
     public static CharSequence capitalizeCharSequence(CharSequence text, int capsMode) {
-        if(capsMode == 0 || text == null || text.length() == 0){
+        if(capsMode == CAPS_MODE_NONE || text == null || text.length() == 0){
             return text;
         }
         int reqModes = 0;
         switch (capsMode){
-            case 1:
+            case CAPS_MODE_CHARACTERS:
                 reqModes = TextUtils.CAP_MODE_CHARACTERS;
                 break;
-            case 2:
+            case CAPS_MODE_WORDS:
                 reqModes = TextUtils.CAP_MODE_WORDS;
                 break;
-            case 3:
+            case CAPS_MODE_SENTENCES:
                 reqModes = TextUtils.CAP_MODE_SENTENCES;
                 break;
         }
         char[] transformed = new char[text.length()];
         for(int offset = 0; offset < text.length(); offset++){
-            if((reqModes & TextUtils.getCapsMode(text, offset, reqModes)) == reqModes){
+            if((reqModes & TextUtils.getCapsMode(text, offset, reqModes)) == reqModes
+                    || (offset == 0 && (reqModes & TextUtils.CAP_MODE_SENTENCES) == TextUtils.CAP_MODE_SENTENCES )){ // This is required because getCapsMode returns incorrectly on the first character with CAP_MODE_SENTENCES
                 transformed[offset] = Character.toUpperCase(text.charAt(offset));
             } else {
                 transformed[offset] = text.charAt(offset);
