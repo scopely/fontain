@@ -1,8 +1,7 @@
 package com.scopely.fontain.enums;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * Italic or not.
  */
 public enum Slope {
     NORMAL(false),

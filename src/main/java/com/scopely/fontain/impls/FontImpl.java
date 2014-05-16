@@ -6,8 +6,7 @@ import com.scopely.fontain.interfaces.Font;
 import com.scopely.fontain.interfaces.FontFamily;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * An implementation of {@link Font} that holds the typeface and weight, width and slope parameters of a font, as well as a reference to the family it belongs to
  */
 public class FontImpl implements Font {
     public static String TAG = FontImpl.class.getCanonicalName();

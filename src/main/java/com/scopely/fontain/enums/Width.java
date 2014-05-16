@@ -1,8 +1,7 @@
 package com.scopely.fontain.enums;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * Standard font widths and their numerical values, on a 1-5 scale
  */
 public enum Width {
     ULTRA_COMPRESSED(1),
@@ -34,7 +33,7 @@ public enum Width {
 
     public static Width get(WidthBase base, Modifier modifier) {
         try {
-            return valueOf(String.format("%s_%s", base, modifier));
+            return valueOf(String.format("%s_%s", modifier, base));
         } catch (IllegalArgumentException e) {
             return valueOf(base.name());
         }

@@ -1,8 +1,7 @@
 package com.scopely.fontain.enums;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * Standard font weights and their numerical values, on the standard 100-900 scale
  */
 public enum Weight {
     HAIRLINE(100),
@@ -34,7 +33,7 @@ public enum Weight {
 
     public static Weight get(WeightBase base, Modifier modifier) {
         try {
-            return valueOf(String.format("%s_%s", base, modifier));
+            return valueOf(String.format("%s_%s", modifier, base));
         } catch (IllegalArgumentException e) {
             return valueOf(base.name());
         }

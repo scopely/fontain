@@ -1,8 +1,7 @@
 package com.scopely.fontain.enums;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * Modifiers that may apply to the Width or Weight of a font when parsing its name.
  */
 public enum Modifier {
     ULTRA,

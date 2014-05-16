@@ -1,8 +1,7 @@
 package com.scopely.fontain.enums;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * The descriptive words that describe a font's weight, sans any modifiers. Used when parsing font names.
  */
 public enum WeightBase {
     HAIRLINE,
