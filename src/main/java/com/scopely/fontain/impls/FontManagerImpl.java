@@ -5,24 +5,20 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 
 import com.scopely.fontain.Fontain;
-import com.scopely.fontain.enums.Modifier;
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
-import com.scopely.fontain.enums.WeightBase;
 import com.scopely.fontain.enums.Width;
-import com.scopely.fontain.enums.WidthBase;
 import com.scopely.fontain.interfaces.Font;
 import com.scopely.fontain.interfaces.FontFamily;
 import com.scopely.fontain.interfaces.FontManager;
 import com.scopely.fontain.utils.FontViewUtils;
+import com.scopely.fontain.utils.ParseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Part of the With Buddies™ Platform
@@ -97,57 +93,10 @@ public class FontManagerImpl implements FontManager {
 
     private FontImpl initFont(String font_name, String family_name, AssetManager am) {
         Typeface typeface = Typeface.createFromAsset(am, String.format("%s/%s/%s", fontsFolder, family_name, font_name));
-        int weight = parseWeight(font_name);
-        int width = parseWidth(font_name);
-        boolean italics = parseItalics(font_name);
+        int weight = ParseUtils.parseWeight(font_name);
+        int width = ParseUtils.parseWidth(font_name);
+        boolean italics = ParseUtils.parseItalics(font_name);
         return new FontImpl(typeface, weight, width, italics);
-    }
-
-    private static boolean parseItalics(String font_name) {
-        return font_name.toLowerCase().contains("italic");
-    }
-
-    private static int parseWidth(String font_name) {
-        for(WidthBase width : WidthBase.values()){
-            if(font_name.toLowerCase().contains(width.name().toLowerCase())){
-                for(Modifier modifier : Modifier.values()){
-                    if(match(font_name, width.name(), modifier.name())){
-                        return Width.get(width, modifier).value;
-                    }
-                }
-                return Width.get(width, Modifier.NONE).value;
-            }
-        }
-        return Width.NORMAL.value;
-    }
-
-    private static int parseWeight(String font_name) {
-        for(WeightBase weight : WeightBase.values()){
-            if(font_name.toLowerCase().contains(weight.name().toLowerCase())){
-                for(Modifier modifier : Modifier.values()){
-                    if(match(font_name, weight.name(), modifier.name())){
-                        return Weight.get(weight, modifier).value;
-                    }
-                }
-                return Weight.get(weight, Modifier.NONE).value;
-            }
-        }
-
-        Pattern pattern = Pattern.compile("(\\d+)");
-        Matcher matcher = pattern.matcher(font_name);
-        while(matcher.find()){
-            int match = Integer.parseInt(matcher.group());
-            if(match >= 100 && match <= 900){
-                return match;
-            }
-        }
-        return Weight.NORMAL.value;
-    }
-
-    private static boolean match(String string, String base, String modifier) {
-        Pattern pattern = Pattern.compile(String.format("(%s.?)(?=%s)", modifier, base));
-        Matcher matcher = pattern.matcher(string);
-        return matcher.find();
     }
 
     @Override
