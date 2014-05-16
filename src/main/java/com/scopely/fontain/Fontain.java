@@ -47,19 +47,19 @@ public class Fontain {
         init(context, FONT_FOLDER, context.getString(defaultFontResId));
     }
 
-    public static void fontify(View view, int weight, int width, boolean italic) {
-        fontify(view, getFontManager().getDefaultFontFamily(), weight, width, italic);
+    public static void applyFontToViewHeirarchy(View view, int weight, int width, boolean italic) {
+        applyFontToViewHierarchy(view, getFontManager().getDefaultFontFamily(), weight, width, italic);
     }
 
-    public static void fontify(View view, FontFamily fontFamily, int weight, int width, boolean italic){
+    public static void applyFontToViewHierarchy(View view, FontFamily fontFamily, int weight, int width, boolean italic){
         Typeface typeface = fontFamily.getTypeFace(weight, width, italic);
-        fontify(view, typeface);
+        applyFontToViewHierarchy(view, typeface);
     }
 
-    public static void fontify(View view, Typeface typeface){
+    public static void applyFontToViewHierarchy(View view, Typeface typeface){
         if(view instanceof ViewGroup){
             for(int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
-                fontify(((ViewGroup) view).getChildAt(i), typeface);
+                applyFontToViewHierarchy(((ViewGroup) view).getChildAt(i), typeface);
             }
         } else if(view instanceof TextView) {
             ((TextView) view).setTypeface(typeface);
