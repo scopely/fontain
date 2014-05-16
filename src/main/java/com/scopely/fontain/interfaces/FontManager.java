@@ -4,7 +4,7 @@ import android.graphics.Typeface;
 
 /**
  * A FontManager manages all the FontFamilies and associated Fonts available.
- * It holds a default FontFamily and provides methods for accessing any other FontFamily by name.
+ * It provides a default FontFamily and provides methods for accessing any other FontFamily by name.
  * It also has a method to reverse lookup a Font from a Typeface.
  */
 public interface FontManager {
