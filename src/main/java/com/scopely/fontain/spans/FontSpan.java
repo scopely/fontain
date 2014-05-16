@@ -6,8 +6,7 @@ import android.text.style.MetricAffectingSpan;
 import com.scopely.fontain.interfaces.Font;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * A span that sets the spanned text to the provided font
  */
 public class FontSpan extends MetricAffectingSpan {
     private Typeface typeface;

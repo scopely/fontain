@@ -9,8 +9,7 @@ import com.scopely.fontain.enums.Width;
 import com.scopely.fontain.interfaces.Font;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * A span that sets the spanned text to the provided width while maintaining weight and slope
  */
 public class WidthSpan extends MetricAffectingSpan {
     private Width width;

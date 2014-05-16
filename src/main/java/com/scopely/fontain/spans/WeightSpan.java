@@ -9,8 +9,7 @@ import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.interfaces.Font;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * A span that sets the spanned text to the provided weight while maintaining slope and width
  */
 public class WeightSpan extends MetricAffectingSpan {
     private Weight weight;

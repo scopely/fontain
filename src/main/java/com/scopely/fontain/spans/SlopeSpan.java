@@ -9,8 +9,7 @@ import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.interfaces.Font;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * A span that sets the spanned text to the provided slope while maintaining weight and width
  */
 public class SlopeSpan extends MetricAffectingSpan {
     private Slope slope;
