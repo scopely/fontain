@@ -1,6 +1,7 @@
 package com.scopely.fontain.interfaces;
 
 import android.graphics.Typeface;
+import android.view.View;
 
 /**
  * A FontManager manages all the FontFamilies and associated Fonts available.
@@ -14,4 +15,6 @@ public interface FontManager {
     FontFamily getFontFamily(String fontFamilyName);
 
     Font getFont(Typeface typeface);
+
+    void applyFontToViewHierarchy(View view, Typeface typeface);
 }
