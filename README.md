@@ -77,7 +77,7 @@ Fontain provides a number of Font Views that are extended from Android's basic t
 ```
 
 #####Caps Mode
-All of the Font Views include the ability to set a Caps Mode. Doing so will initialize the view with a TransformationMethod that will display the text of the view with certain letters capitalized. Caps Mode ```characters``` will capitalize all letters, Caps Mode ```words``` will capitalize the first letter of each word, and Caps Mode ```sentences``` will capitalize the first letter of each sentence. It is analagous to, and is implemented with, Android's ```TextUtils.CAP_MODE_XXXXX```, but with more granular control in xml than ```android:textAllCaps```.
+All of the Font Views include the ability to set a Caps Mode. Doing so will initialize the view with a ```TransformationMethod``` that will display the text of the view with certain letters capitalized. Caps Mode ```characters``` will capitalize all letters, Caps Mode ```words``` will capitalize the first letter of each word, and Caps Mode ```sentences``` will capitalize the first letter of each sentence. It is analagous to, and is implemented with, Android's ```TextUtils.CAP_MODE_XXXXX```, but with more granular control in xml than merely ```android:textAllCaps```.
 
 ####Apply to View Hierarchy
 Fontain also contains methods for walking a view hierarchy and applying a given typeface to any TextView contained therein. Fontain provides several overloaded methods that achieve the same thing:
@@ -98,7 +98,7 @@ Fontain also provides the following spans that allow you to change font within a
     WeightSpan: does a reverse lookup of the text's current typeface and then finds a font in the same font family with the specified weight
     SlopeSpan: does a reverse lookup of the text's current typeface and then finds a font in the same font family with the specified slope.
     
-These spans are applied in the same manner as any other Span.
+These spans all extend ```MetricAffectingSpan``` are applied in the same manner as sibling classes such as ```RelativeSizeSpan``` and ```SubscriptSpan```.
 
 
 ##Definitions
