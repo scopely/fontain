@@ -90,6 +90,17 @@ Fontain.applyFontToViewHierarchy(View view, Typeface typeface)
 
 The use case for these methods is generally when the layout in question is provided by the system (eg: AlertDialog) or a third party library (eg: https://github.com/JakeWharton/Android-ViewPagerIndicator)
 
+##Spans
+Fontain also provides the following spans that allow you to change font within a single TextView:
+
+	FontSpan: applies a specified typeface to the spanned text
+    WidthSpan: does a reverse lookup of the text's current typeface and then finds a font in the same font family with the specified width
+    WeightSpan: does a reverse lookup of the text's current typeface and then finds a font in the same font family with the specified weight
+    SlopeSpan: does a reverse lookup of the text's current typeface and then finds a font in the same font family with the specified slope.
+    
+These spans are applied in the same manner as any other Span.
+
+
 ##Definitions
 ###Weight
 The weight of a font is its thickness. Bold is the classic descriptor related to weight, but there are many more, and all correspond to a numerical value on a scale that ranges from 100 to 900. The names and numerical values used by Fontain are listed below:
