@@ -2,11 +2,7 @@ package com.scopely.fontain.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Button;
 import android.widget.Chronometer;
-
-import com.scopely.fontain.Fontain;
-import com.scopely.fontain.utils.FontViewUtils;
 
 import org.jetbrains.annotations.NotNull;
 

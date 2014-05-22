@@ -4,7 +4,6 @@ import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 
-import com.scopely.fontain.Fontain;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.interfaces.Font;
 

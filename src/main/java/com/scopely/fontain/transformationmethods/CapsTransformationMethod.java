@@ -4,8 +4,6 @@ import android.graphics.Rect;
 import android.text.method.TransformationMethod;
 import android.view.View;
 
-import com.scopely.fontain.utils.FontViewUtils;
-
 import static com.scopely.fontain.utils.FontViewUtils.capitalizeCharSequence;
 
 

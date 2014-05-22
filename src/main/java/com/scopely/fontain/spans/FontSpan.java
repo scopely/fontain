@@ -3,6 +3,7 @@ package com.scopely.fontain.spans;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
+
 import com.scopely.fontain.interfaces.Font;
 
 /**

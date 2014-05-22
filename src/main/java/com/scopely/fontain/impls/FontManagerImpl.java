@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.scopely.fontain.Fontain;
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
@@ -15,7 +14,6 @@ import com.scopely.fontain.interfaces.Font;
 import com.scopely.fontain.interfaces.FontFamily;
 import com.scopely.fontain.interfaces.FontManager;
 import com.scopely.fontain.utils.FontViewUtils;
-import com.scopely.fontain.utils.ParseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;

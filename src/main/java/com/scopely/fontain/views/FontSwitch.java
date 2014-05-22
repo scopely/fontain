@@ -3,10 +3,6 @@ package com.scopely.fontain.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Switch;
-import android.widget.TextView;
-
-import com.scopely.fontain.Fontain;
-import com.scopely.fontain.utils.FontViewUtils;
 
 import org.jetbrains.annotations.NotNull;
 
