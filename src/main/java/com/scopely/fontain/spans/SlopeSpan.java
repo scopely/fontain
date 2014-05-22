@@ -8,6 +8,8 @@ import com.scopely.fontain.Fontain;
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.interfaces.Font;
 
+import static com.scopely.fontain.Fontain.getFont;
+
 /**
  * A span that sets the spanned text to the provided slope while maintaining weight and width
  */
@@ -30,7 +32,7 @@ public class SlopeSpan extends MetricAffectingSpan {
 
     private void apply(TextPaint p) {
         Typeface oldTypeFace = p.getTypeface();
-        Font font = Fontain.getFont(oldTypeFace);
+        Font font = getFont(oldTypeFace);
         Typeface typeface = font.getFamily().getTypeFace(font.getWeight(), font.getWidth(), slope.value);
         p.setTypeface(typeface);
     }

@@ -23,6 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.scopely.fontain.Fontain.SYSTEM_DEFAULT;
+import static com.scopely.fontain.utils.ParseUtils.parseItalics;
+import static com.scopely.fontain.utils.ParseUtils.parseWeight;
+import static com.scopely.fontain.utils.ParseUtils.parseWidth;
+
 /**
  * Implementation of {@link com.scopely.fontain.interfaces.FontManager}
  * Walks through the provided fontFolder in the app's Assets folder and initializes the fonts and font families it finds within
@@ -42,7 +47,7 @@ public class FontManagerImpl implements FontManager {
 
     private void init(Context context){
         AssetManager am = context.getAssets();
-        fontFamilyMap.put(Fontain.SYSTEM_DEFAULT, initSystemDefaultFamily());
+        fontFamilyMap.put(SYSTEM_DEFAULT, initSystemDefaultFamily());
 
         try {
             String[] fontFamilies = am.list(fontsFolder);
@@ -68,7 +73,7 @@ public class FontManagerImpl implements FontManager {
             fontList.add(new FontImpl(Typeface.defaultFromStyle(style), weight.value, width.value, slope.value));
         }
 
-        FontFamily family = new FontFamilyImpl(Fontain.SYSTEM_DEFAULT, fontList);
+        FontFamily family = new FontFamilyImpl(SYSTEM_DEFAULT, fontList);
 
         for(Font font : fontList) {
             ((FontImpl) font).setFamily(family);
@@ -96,9 +101,9 @@ public class FontManagerImpl implements FontManager {
 
     private FontImpl initFont(String fontName, String familyName, AssetManager am) {
         Typeface typeface = Typeface.createFromAsset(am, String.format("%s/%s/%s", fontsFolder, familyName, fontName));
-        int weight = ParseUtils.parseWeight(fontName);
-        int width = ParseUtils.parseWidth(fontName);
-        boolean italics = ParseUtils.parseItalics(fontName);
+        int weight = parseWeight(fontName);
+        int width = parseWidth(fontName);
+        boolean italics = parseItalics(fontName);
         return new FontImpl(typeface, weight, width, italics);
     }
 

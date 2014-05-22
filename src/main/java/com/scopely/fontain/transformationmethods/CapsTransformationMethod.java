@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.scopely.fontain.utils.FontViewUtils;
 
+import static com.scopely.fontain.utils.FontViewUtils.capitalizeCharSequence;
+
 
 public enum CapsTransformationMethod implements TransformationMethod {
     NONE,
@@ -16,7 +18,7 @@ public enum CapsTransformationMethod implements TransformationMethod {
 
     @Override
     public CharSequence getTransformation(CharSequence source, View view) {
-        return FontViewUtils.capitalizeCharSequence(source, ordinal());
+        return capitalizeCharSequence(source, ordinal());
     }
 
     @Override
