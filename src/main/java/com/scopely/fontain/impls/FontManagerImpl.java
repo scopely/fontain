@@ -3,6 +3,9 @@ package com.scopely.fontain.impls;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.scopely.fontain.Fontain;
 import com.scopely.fontain.enums.Slope;
@@ -21,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * Implementation of {@link com.scopely.fontain.interfaces.FontManager}
+ * Walks through the provided fontFolder in the app's Assets folder and initializes the fonts and font families it finds within
  */
 public class FontManagerImpl implements FontManager {
     private final String fontsFolder;
@@ -91,11 +94,11 @@ public class FontManagerImpl implements FontManager {
         }
     }
 
-    private FontImpl initFont(String font_name, String family_name, AssetManager am) {
-        Typeface typeface = Typeface.createFromAsset(am, String.format("%s/%s/%s", fontsFolder, family_name, font_name));
-        int weight = ParseUtils.parseWeight(font_name);
-        int width = ParseUtils.parseWidth(font_name);
-        boolean italics = ParseUtils.parseItalics(font_name);
+    private FontImpl initFont(String fontName, String familyName, AssetManager am) {
+        Typeface typeface = Typeface.createFromAsset(am, String.format("%s/%s/%s", fontsFolder, familyName, fontName));
+        int weight = ParseUtils.parseWeight(fontName);
+        int width = ParseUtils.parseWidth(fontName);
+        boolean italics = ParseUtils.parseItalics(fontName);
         return new FontImpl(typeface, weight, width, italics);
     }
 
@@ -125,5 +128,16 @@ public class FontManagerImpl implements FontManager {
         Slope slope = typeface.isItalic() ? Slope.ITALIC : Slope.NORMAL;
         Weight weight = typeface.isBold() ? Weight.BOLD : Weight.NORMAL;
         return getDefaultFontFamily().getFont(weight, Width.NORMAL, slope);
+    }
+
+    @Override
+    public void applyFontToViewHierarchy(View view, Typeface typeface) {
+        if(view instanceof ViewGroup){
+            for(int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
+                applyFontToViewHierarchy(((ViewGroup) view).getChildAt(i), typeface);
+            }
+        } else if(view instanceof TextView) {
+            ((TextView) view).setTypeface(typeface);
+        }
     }
 }

@@ -12,12 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Part of the With Buddies™ Platform
- * © 2013 Scopely, Inc.
+ * Implementation of {@link com.scopely.fontain.interfaces.FontFamily}
  */
 public class FontFamilyImpl implements FontFamily {
-    public static String TAG = FontFamilyImpl.class.getCanonicalName();
-
     List<? extends Font> fonts;
     String name;
 

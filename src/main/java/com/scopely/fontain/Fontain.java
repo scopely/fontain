@@ -15,7 +15,7 @@ import com.scopely.fontain.interfaces.FontManager;
 /**
  *
  * Fontain is a static wrapper around an instance of FontManager.
- * Fontain must be initialized with a Context and a default font family name once before use, and can then be called from anywhere
+ * Fontain must be initialized with a Context and a default font family name once before use, and can then be called from anywhere.
  * The provided Font Views rely on Fontain, so it must be initialized before any layout using those views is inflated.
  * Your Application's OnCreate method is the recommended place to initialize Fontain.
  *
@@ -43,6 +43,10 @@ public class Fontain {
         init(context, FONT_FOLDER, defaultFontName);
     }
 
+    public static void init(Context context, String fontsFolder, int defaultFontResId) {
+        init(context,fontsFolder, context.getString(defaultFontResId));
+    }
+
     public static void init(Context context, int defaultFontResId) {
         init(context, FONT_FOLDER, context.getString(defaultFontResId));
     }
@@ -57,13 +61,7 @@ public class Fontain {
     }
 
     public static void applyFontToViewHierarchy(View view, Typeface typeface){
-        if(view instanceof ViewGroup){
-            for(int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
-                applyFontToViewHierarchy(((ViewGroup) view).getChildAt(i), typeface);
-            }
-        } else if(view instanceof TextView) {
-            ((TextView) view).setTypeface(typeface);
-        }
+        getFontManager().applyFontToViewHierarchy(view, typeface);
     }
 
     public static FontFamily getDefaultFontFamily(){
