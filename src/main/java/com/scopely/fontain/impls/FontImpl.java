@@ -9,7 +9,6 @@ import com.scopely.fontain.interfaces.FontFamily;
  * An implementation of {@link Font} that holds the typeface and weight, width and slope parameters of a font, as well as a reference to the family it belongs to
  */
 public class FontImpl implements Font {
-    public static String TAG = FontImpl.class.getCanonicalName();
     private Typeface typeface;
     private boolean slope;
     private int weight;
