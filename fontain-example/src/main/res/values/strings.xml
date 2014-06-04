@@ -7,5 +7,6 @@
     <string name="pt_sans">PT Sans</string>
     <string name="medieval_sharp">Medieval Sharp</string>
     <string name="ls">LS</string>
+    <string name="default_font_family">PTSans</string>
 
 </resources>
