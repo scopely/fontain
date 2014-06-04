@@ -111,34 +111,38 @@
             android:textStyle="italic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+
         <com.scopely.fontain.views.FontTextView
             android:text="Droid Sans"
             app:font_family="@string/fontain_system_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
         <com.scopely.fontain.views.FontTextView
             android:text="Droid Sans Italic"
             app:font_family="@string/fontain_system_default"
             android:textStyle="italic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
         <com.scopely.fontain.views.FontTextView
             android:text="Droid Sans Bold"
             app:font_family="@string/fontain_system_default"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
         <com.scopely.fontain.views.FontTextView
             android:text="Droid Sans Bold Italic"
             app:font_family="@string/fontain_system_default"
             android:textStyle="bold|italic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <com.scopely.fontain.views.FontTextView
             android:text="caps mode: sentences"
