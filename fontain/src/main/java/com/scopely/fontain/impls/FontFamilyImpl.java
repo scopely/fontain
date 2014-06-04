@@ -29,16 +29,6 @@ public class FontFamilyImpl implements FontFamily {
     }
 
     @Override
-    public Typeface getTypeFace(int weight, int width, boolean italic) {
-        return getFont(weight, width, italic).getTypeFace();
-    }
-
-    @Override
-    public Typeface getTypeFace(Weight weight, Width width, Slope slope) {
-        return getTypeFace(weight.value, width.value, slope.value);
-    }
-
-    @Override
     public Font getFont(int weight, int width, boolean italic) {
         Font bestMatch = null;
         int bestMatchScore = 0;

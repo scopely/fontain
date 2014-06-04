@@ -13,8 +13,6 @@ import java.util.List;
  * It provides methods to find the closest match it has to a given combination of weight, width and slope.
  */
 public interface FontFamily {
-    public Typeface getTypeFace(int weight, int width, boolean italic);
-    public Typeface getTypeFace(Weight weight, Width width, Slope slope);
     public Font getFont(int weight, int width, boolean italic);
     public Font getFont(Weight weight, Width width, Slope slope);
     public List<? extends Font> getFonts();
