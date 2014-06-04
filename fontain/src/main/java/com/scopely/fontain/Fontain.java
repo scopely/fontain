@@ -49,7 +49,7 @@ public class Fontain {
         init(context, FONT_FOLDER, context.getString(defaultFontResId));
     }
 
-    public static void applyFontToViewHeirarchy(View view, int weight, int width, boolean italic) {
+    public static void applyFontToViewHierarchy(View view, int weight, int width, boolean italic) {
         applyFontToViewHierarchy(view, getFontManager().getDefaultFontFamily(), weight, width, italic);
     }
 

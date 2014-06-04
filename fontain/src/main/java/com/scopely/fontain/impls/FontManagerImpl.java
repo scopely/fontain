@@ -15,6 +15,8 @@ import com.scopely.fontain.interfaces.FontFamily;
 import com.scopely.fontain.interfaces.FontManager;
 import com.scopely.fontain.utils.FontViewUtils;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +87,10 @@ public class FontManagerImpl implements FontManager {
             List<FontImpl> fontList = new ArrayList<FontImpl>();
             String[] fonts = am.list(String.format("%s/%s", fontsFolder, fontFamily));
             for(String font : fonts){
-                fontList.add(initFont(font, fontFamily, am));
+                FontImpl fontObj = initFont(font, fontFamily, am);
+                if(fontObj != null){
+                    fontList.add(fontObj);
+                }
             }
             FontFamily family = new FontFamilyImpl(fontFamily, fontList);
             for(FontImpl font : fontList) {
@@ -97,12 +102,17 @@ public class FontManagerImpl implements FontManager {
         }
     }
 
+    @Nullable
     private FontImpl initFont(String fontName, String familyName, AssetManager am) {
-        Typeface typeface = Typeface.createFromAsset(am, String.format("%s/%s/%s", fontsFolder, familyName, fontName));
-        int weight = parseWeight(fontName);
-        int width = parseWidth(fontName);
-        boolean italics = parseItalics(fontName);
-        return new FontImpl(typeface, weight, width, italics);
+        try {
+            Typeface typeface = Typeface.createFromAsset(am, String.format("%s/%s/%s", fontsFolder, familyName, fontName));
+            int weight = parseWeight(fontName);
+            int width = parseWidth(fontName);
+            boolean italics = parseItalics(fontName);
+            return new FontImpl(typeface, weight, width, italics);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

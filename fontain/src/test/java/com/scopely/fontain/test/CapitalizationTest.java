@@ -1,10 +1,6 @@
 package com.scopely.fontain.test;
 
-import com.scopely.fontain.enums.Slope;
-import com.scopely.fontain.enums.Weight;
-import com.scopely.fontain.enums.Width;
 import com.scopely.fontain.utils.FontViewUtils;
-import com.scopely.fontain.utils.ParseUtils;
 
 import junit.framework.TestCase;
 

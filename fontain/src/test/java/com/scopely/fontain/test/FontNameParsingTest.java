@@ -1,7 +1,5 @@
 package com.scopely.fontain.test;
 
-import android.test.AndroidTestCase;
-
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
