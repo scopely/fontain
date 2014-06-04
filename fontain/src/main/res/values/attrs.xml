@@ -26,14 +26,98 @@
         <enum name="sentences" value="3"/>
     </attr>
 
-    <declare-styleable name="FontTextView">
+    <declare-styleable name="com.scopely.fontain.views.FontTextView">
         <attr name="font_family"/>
         <attr name="font_weight"/>
         <attr name="font_width"/>
         <attr name="caps_mode"/>
     </declare-styleable>
 
-    <declare-styleable name="FontButton">
+    <declare-styleable name="com.scopely.fontain.views.FontButton">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.AutoCompleteFontTextView">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.CheckedFontTextView">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.FontCheckBox">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.FontChronometer">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.FontCompoundButton">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.FontEditText">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.FontExtractEditText">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.FontRadioButton">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.FontSwitch">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.FontTextClock">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.FontToggleButton">
+        <attr name="font_family"/>
+        <attr name="font_weight"/>
+        <attr name="font_width"/>
+        <attr name="caps_mode"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.scopely.fontain.views.MultiAutoCompleteFontTextView">
         <attr name="font_family"/>
         <attr name="font_weight"/>
         <attr name="font_width"/>
