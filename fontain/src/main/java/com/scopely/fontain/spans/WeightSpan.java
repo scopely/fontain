@@ -32,7 +32,7 @@ public class WeightSpan extends MetricAffectingSpan {
     private void apply(TextPaint p) {
         Typeface oldTypeFace = p.getTypeface();
         Font font = getFont(oldTypeFace);
-        Typeface typeface = font.getFamily().getTypeFace(weight.value, font.getWidth(), font.getSlope());
+        Typeface typeface = font.getFamily().getFont(weight.value, font.getWidth(), font.getSlope()).getTypeFace();
         p.setTypeface(typeface);
     }
 }

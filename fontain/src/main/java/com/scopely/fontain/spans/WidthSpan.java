@@ -32,7 +32,7 @@ public class WidthSpan extends MetricAffectingSpan {
     private void apply(TextPaint p) {
         Typeface oldTypeFace = p.getTypeface();
         Font font = getFont(oldTypeFace);
-        Typeface typeface = font.getFamily().getTypeFace(font.getWeight(), width.value, font.getSlope());
+        Typeface typeface = font.getFamily().getFont(font.getWeight(), width.value, font.getSlope()).getTypeFace();
         p.setTypeface(typeface);
     }
 }

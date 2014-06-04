@@ -32,7 +32,7 @@ public class SlopeSpan extends MetricAffectingSpan {
     private void apply(TextPaint p) {
         Typeface oldTypeFace = p.getTypeface();
         Font font = getFont(oldTypeFace);
-        Typeface typeface = font.getFamily().getTypeFace(font.getWeight(), font.getWidth(), slope.value);
+        Typeface typeface = font.getFamily().getFont(font.getWeight(), font.getWidth(), slope.value).getTypeFace();
         p.setTypeface(typeface);
     }
 }
