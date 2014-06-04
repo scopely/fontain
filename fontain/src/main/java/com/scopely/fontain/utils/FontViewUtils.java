@@ -92,7 +92,7 @@ public class FontViewUtils {
     }
 
     private static Font fontFromTypedArrays(FontManager fontManager, TypedArray fontArray, TypedArray textStyleArray) {
-        String fontFamilyName = fontArray.getString(R.styleable.FontButton_font_family);
+        String fontFamilyName = fontArray.getString(R.styleable.FontTextView_font_family);
         int fontWeight = fontArray.getInt(R.styleable.FontTextView_font_weight, 0);
         int fontWidth = fontArray.getInt(R.styleable.FontTextView_font_width, 0);
         fontArray.recycle();
