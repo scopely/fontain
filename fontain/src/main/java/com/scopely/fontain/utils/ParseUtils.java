@@ -22,7 +22,7 @@ public class ParseUtils {
      * @return true iff font is italic
      */
     public static boolean parseItalics(String font_name) {
-        return font_name.toLowerCase().contains("italic");
+        return font_name.toLowerCase().contains("italic") || font_name.toLowerCase().contains("oblique");
     }
 
     /**
