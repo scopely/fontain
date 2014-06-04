@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fontain_tag_font" type="id" />
+    <item name="fontain_tag_weight" type="id" />
+    <item name="fontain_tag_width" type="id" />
+    <item name="fontain_tag_slope" type="id" />
+</resources>

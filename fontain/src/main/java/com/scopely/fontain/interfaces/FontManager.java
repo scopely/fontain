@@ -16,5 +16,7 @@ public interface FontManager {
 
     Font getFont(Typeface typeface);
 
-    void applyFontToViewHierarchy(View view, Typeface typeface);
+    void applyFontToViewHierarchy(View view, Font font);
+
+    void applyFontFamilyToViewHierarchy(View view, FontFamily family);
 }

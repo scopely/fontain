@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.scopely.fontain.R;
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
@@ -130,7 +131,10 @@ public class FontManagerImpl implements FontManager {
     }
 
     @Override
-    public Font getFont(Typeface typeface) {
+    public Font getFont(@Nullable Typeface typeface) {
+        if(typeface == null) {
+            return getDefaultFontFamily().getFont(Weight.NORMAL, Width.NORMAL, Slope.NORMAL);
+        }
         for(Map.Entry<String, FontFamily> entry : fontFamilyMap.entrySet()) {
             for(Font font : entry.getValue().getFonts()) {
                 if(typeface.equals(font.getTypeFace())) {
@@ -144,13 +148,35 @@ public class FontManagerImpl implements FontManager {
     }
 
     @Override
-    public void applyFontToViewHierarchy(View view, Typeface typeface) {
+    public void applyFontToViewHierarchy(View view, Font font) {
         if(view instanceof ViewGroup){
             for(int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
-                applyFontToViewHierarchy(((ViewGroup) view).getChildAt(i), typeface);
+                applyFontToViewHierarchy(((ViewGroup) view).getChildAt(i), font);
             }
         } else if(view instanceof TextView) {
-            ((TextView) view).setTypeface(typeface);
+            FontViewUtils.ensureTags((TextView) view, this);
+            ((TextView) view).setTypeface(font.getTypeFace());
+        }
+    }
+
+    @Override
+    public void applyFontFamilyToViewHierarchy(View view, FontFamily family) {
+        if(view instanceof ViewGroup){
+            for(int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
+                applyFontFamilyToViewHierarchy(((ViewGroup) view).getChildAt(i), family);
+            }
+        } else if(view instanceof TextView) {
+            TextView textView = (TextView) view;
+
+            FontViewUtils.ensureTags(textView, this);
+
+            Integer weight = (Integer) textView.getTag(R.id.fontain_tag_weight);
+            Integer width = (Integer) textView.getTag(R.id.fontain_tag_width);
+            Boolean slope = (Boolean) textView.getTag(R.id.fontain_tag_slope);
+
+            Font newFont = family.getFont(weight, width, slope);
+            textView.setTag(R.id.fontain_tag_font, newFont);
+            textView.setTypeface(newFont.getTypeFace());
         }
     }
 }

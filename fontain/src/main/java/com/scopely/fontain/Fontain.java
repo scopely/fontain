@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.view.View;
 
+import com.scopely.fontain.enums.Slope;
+import com.scopely.fontain.enums.Weight;
+import com.scopely.fontain.enums.Width;
 import com.scopely.fontain.impls.FontManagerImpl;
 import com.scopely.fontain.interfaces.Font;
 import com.scopely.fontain.interfaces.FontFamily;
@@ -53,13 +56,40 @@ public class Fontain {
         applyFontToViewHierarchy(view, getFontManager().getDefaultFontFamily(), weight, width, italic);
     }
 
-    public static void applyFontToViewHierarchy(View view, FontFamily fontFamily, int weight, int width, boolean italic){
-        Typeface typeface = fontFamily.getTypeFace(weight, width, italic);
-        applyFontToViewHierarchy(view, typeface);
+    public static void applyFontToViewHierarchy(View view, Weight weight, Width width, Slope italic){
+        applyFontToViewHierarchy(view, getFontManager().getDefaultFontFamily(), weight, width, italic);
     }
 
-    public static void applyFontToViewHierarchy(View view, Typeface typeface){
-        getFontManager().applyFontToViewHierarchy(view, typeface);
+    public static void applyFontToViewHierarchy(View view, FontFamily fontFamily, Weight weight, Width width, Slope italic){
+        applyFontToViewHierarchy(view, fontFamily, weight.value, width.value, italic.value);
+    }
+
+    public static void applyFontToViewHierarchy(View view, FontFamily fontFamily, int weight, int width, boolean italic){
+        Font font = fontFamily.getFont(weight, width, italic);
+        applyFontToViewHierarchy(view, font);
+    }
+
+    /**
+     *
+     * Walks the given view hierarchy and applies the given font to every TextView therein
+     *
+     * @param view the View hierarchy to walk
+     * @param font the font to apply
+     */
+    public static void applyFontToViewHierarchy(View view, Font font){
+        getFontManager().applyFontToViewHierarchy(view, font);
+    }
+
+    /**
+     *
+     * Walks the given view hiearchy and applies the font within the provided font family that best matches each TextView therein.
+     * Acts similarly to {@link applyFontToViewHierarchy}, but maintains weight, width and slope for each TextView it encounters.
+     *
+     * @param view the View hierarchy to walk
+     * @param family the font family to apply
+     */
+    public static void applyFontFamilyToViewHierarchy(View view, FontFamily family){
+        getFontManager().applyFontFamilyToViewHierarchy(view, family);
     }
 
     public static FontFamily getDefaultFontFamily(){
