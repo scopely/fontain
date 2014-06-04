@@ -8,7 +8,6 @@ import android.graphics.Typeface;
  */
 public interface Font {
     public Typeface getTypeFace();
-
     public int getWeight();
     public int getWidth();
     public boolean getSlope();
