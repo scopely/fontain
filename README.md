@@ -1,6 +1,6 @@
 #Fontain
 
-Fontain is a lightweight library for displaying text in custom fonts in your Android Applications
+Fontain is a lightweight library for displaying text in custom fonts in your Android applications
 
 ##Features
 Fontain allows you to include a number of custom fonts within your app, and then access them by their Font Family, Weight, Width and Slope. It simplifies the process of selecting the proper typeface for any given usage.
@@ -83,11 +83,15 @@ All of the Font Views include the ability to set a Caps Mode. Doing so will init
 Fontain also contains methods for walking a view hierarchy and applying a given typeface to any TextView contained therein. Fontain provides several overloaded methods that achieve the same thing:
 
 ```java
-Fontain.applyFontToViewHeirarchy(View view, int weight, int width, boolean italic)
+Fontain.applyFontToViewHierarchy(View view, int weight, int width, boolean italic)
 Fontain.applyFontToViewHierarchy(View view, FontFamily fontFamily, int weight, int width, boolean italic)
-Fontain.applyFontToViewHierarchy(View view, Typeface typeface)
+Fontain.applyFontToViewHierarchy(View view, Font font)
 ```
+Fontain also has a method that will apply a font family across a view hierarchy. Whereas the above methods will apply a single font to all views in the hierarchy, the below method will select the font that best matches the view's pre-existing weight, width and slope attributes.
 
+```java
+Fontain.applyFontFamilyToViewHierarchy(View view, FontFamily family)
+```
 The use case for these methods is generally when the layout in question is provided by the system (eg: AlertDialog) or a third party library (eg: https://github.com/JakeWharton/Android-ViewPagerIndicator)
 
 ##Spans
