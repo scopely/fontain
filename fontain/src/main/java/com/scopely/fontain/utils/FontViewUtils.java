@@ -9,10 +9,12 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.scopely.fontain.Fontain;
 import com.scopely.fontain.R;
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
+import com.scopely.fontain.interfaces.Font;
 import com.scopely.fontain.interfaces.FontFamily;
 import com.scopely.fontain.interfaces.FontManager;
 import com.scopely.fontain.transformationmethods.CapsTransformationMethod;
@@ -43,10 +45,15 @@ public class FontViewUtils {
         if (view.isInEditMode()) {
             return;
         }
-        Typeface typeface = FontViewUtils.typefaceFromAttributeSet(context, attributeSet, fontManager);
-        CapsTransformationMethod method = FontViewUtils.capsModeFromAttributeSet(context, attributeSet);
+        Font font = fontFromAttributeSet(context, attributeSet, fontManager);
+        CapsTransformationMethod method = capsModeFromAttributeSet(context, attributeSet);
         view.setTransformationMethod(method);
-        view.setTypeface(typeface);
+        view.setTypeface(font.getTypeFace());
+
+        view.setTag(R.id.fontain_tag_slope, font.getSlope());
+        view.setTag(R.id.fontain_tag_weight, font.getWeight());
+        view.setTag(R.id.fontain_tag_width, font.getWidth());
+        view.setTag(R.id.fontain_tag_font, font);
     }
 
     /**
@@ -62,18 +69,18 @@ public class FontViewUtils {
      * @param attributeSet
      * @return
      */
-    public static Typeface typefaceFromAttributeSet(Context context, @Nullable AttributeSet attributeSet, FontManager fontManager) {
+    public static Font fontFromAttributeSet(Context context, @Nullable AttributeSet attributeSet, FontManager fontManager) {
         if (attributeSet != null) {
             TypedArray fontArray = context.obtainStyledAttributes(attributeSet, R.styleable.FontTextView);
             int[] attributesTextStyle = {android.R.attr.textStyle};
             TypedArray textStyleArray = context.obtainStyledAttributes(attributeSet, attributesTextStyle);
-            return typefaceFromTypedArrays(fontManager, fontArray, textStyleArray);
+            return fontFromTypedArrays(fontManager, fontArray, textStyleArray);
         } else {
             int fontWeight = 0;
             int fontWidth = 0;
             int textStyle = Typeface.NORMAL;
             FontFamily fontFamily = fontManager.getDefaultFontFamily();
-            return typefaceForTextStyle(fontFamily, fontWeight, fontWidth, textStyle);
+            return fontForTextStyle(fontFamily, fontWeight, fontWidth, textStyle);
         }
     }
 
@@ -81,10 +88,10 @@ public class FontViewUtils {
         TypedArray fontArray = context.obtainStyledAttributes(textAppearanceResId, R.styleable.FontTextView);
         int[] attributesTextStyle = {android.R.attr.textStyle};
         TypedArray textStyleArray = context.obtainStyledAttributes(textAppearanceResId, attributesTextStyle);
-        return typefaceFromTypedArrays(fontManager, fontArray, textStyleArray);
+        return fontFromTypedArrays(fontManager, fontArray, textStyleArray).getTypeFace();
     }
 
-    private static Typeface typefaceFromTypedArrays(FontManager fontManager, TypedArray fontArray, TypedArray textStyleArray) {
+    private static Font fontFromTypedArrays(FontManager fontManager, TypedArray fontArray, TypedArray textStyleArray) {
         String fontFamilyName = fontArray.getString(R.styleable.FontButton_font_family);
         int fontWeight = fontArray.getInt(R.styleable.FontTextView_font_weight, 0);
         int fontWidth = fontArray.getInt(R.styleable.FontTextView_font_width, 0);
@@ -93,7 +100,7 @@ public class FontViewUtils {
         textStyleArray.recycle();
 
         FontFamily fontFamily = fontManager.getFontFamily(fontFamilyName);
-        return typefaceForTextStyle(fontFamily, fontWeight, fontWidth, textStyle);
+        return fontForTextStyle(fontFamily, fontWeight, fontWidth, textStyle);
     }
 
 
@@ -126,7 +133,7 @@ public class FontViewUtils {
      * @param textStyle The style flags (As specified in Typeface) Android natively supports for TextViews
      * @return
      */
-    public static Typeface typefaceForTextStyle(FontFamily family, int fontWeight, int fontWidth, int textStyle) {
+    public static Font fontForTextStyle(FontFamily family, int fontWeight, int fontWidth, int textStyle) {
         int weight;
         int width;
         boolean slope;
@@ -135,7 +142,7 @@ public class FontViewUtils {
         width = fontWidth != 0 ? fontWidth : Width.NORMAL.value;
         slope = isItalic(textStyle) ? Slope.ITALIC.value : Slope.NORMAL.value;
 
-        return family.getFont(weight, width, slope).getTypeFace();
+        return family.getFont(weight, width, slope);
     }
 
     /**
@@ -179,6 +186,34 @@ public class FontViewUtils {
             return sp;
         } else {
             return s;
+        }
+    }
+
+    //Introspects a TextView and ensures that the relevant tags for font, weight, width, and slope have been set.
+    public static void ensureTags(TextView textView, FontManager fontManager) {
+        Integer weight = (Integer) textView.getTag(R.id.fontain_tag_weight);
+        Integer width = (Integer) textView.getTag(R.id.fontain_tag_width);
+        Boolean slope = (Boolean) textView.getTag(R.id.fontain_tag_slope);
+
+        //These tags will be null iff this is an Android native TextView that is being interacted with for the first time by Fontain.
+        // In this case the font family will be the system default, and we can rely on the view's typeface's style for weight/slope information.
+        if(weight == null || width == null || slope == null) {
+            Typeface typeface = textView.getTypeface();
+            if(typeface == null) {
+                weight = Weight.NORMAL.value;
+                width = Width.NORMAL.value;
+                slope = Slope.NORMAL.value;
+            } else {
+                width = Width.NORMAL.value;
+                weight = typeface.isBold() ? Weight.BOLD.value : Weight.NORMAL.value;
+                slope = typeface.isItalic();
+            }
+            Font font = fontManager.getFontFamily(Fontain.SYSTEM_DEFAULT).getFont(weight, width, slope);
+
+            textView.setTag(R.id.fontain_tag_weight, weight);
+            textView.setTag(R.id.fontain_tag_width, width);
+            textView.setTag(R.id.fontain_tag_slope, slope);
+            textView.setTag(R.id.fontain_tag_font, font);
         }
     }
 
