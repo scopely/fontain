@@ -64,7 +64,7 @@ public class FontManagerImpl implements FontManager {
 
     }
 
-    private FontFamily initSystemDefaultFamily() {
+    static FontFamily initSystemDefaultFamily() {
         List<Font> fontList = new ArrayList<Font>();
         int[] styles = new int[]{Typeface.NORMAL, Typeface.BOLD, Typeface.BOLD_ITALIC, Typeface.ITALIC};
         for(int style : styles) {
