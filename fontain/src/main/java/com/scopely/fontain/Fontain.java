@@ -2,11 +2,13 @@ package com.scopely.fontain;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
+import com.scopely.fontain.impls.DummyFontManager;
 import com.scopely.fontain.impls.FontManagerImpl;
 import com.scopely.fontain.interfaces.Font;
 import com.scopely.fontain.interfaces.FontFamily;
@@ -27,17 +29,25 @@ public class Fontain {
     public static final String SYSTEM_DEFAULT = "system_default";
 
     private static FontManager fontManager;
+    private static boolean initialized;
 
     public static FontManager getFontManager() {
-        if(fontManager != null) {
-            return fontManager;
-        } else {
-            throw new RuntimeException("Must initialize Fontain before accessing it");
+        if(fontManager == null) {
+            fontManager = new FontManagerImpl();
         }
+        if(!initialized) {
+            Log.e("Fontain", "Fontain was accessed without being initialized. Falling back to system-font-only implementation.");
+        }
+        return fontManager;
     }
 
     public static void init(Context context, String fontsFolder, String defaultFontName){
         fontManager = new FontManagerImpl(context, fontsFolder, defaultFontName);
+        initialized = true;
+    }
+
+    public static void init(Context context) {
+        init(context, FONT_FOLDER, SYSTEM_DEFAULT);
     }
 
     public static void init(Context context, String defaultFontName) {

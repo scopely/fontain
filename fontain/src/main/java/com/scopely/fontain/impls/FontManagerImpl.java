@@ -35,34 +35,38 @@ import static com.scopely.fontain.utils.ParseUtils.parseWidth;
  * Walks through the provided fontFolder in the app's Assets folder and initializes the fonts and font families it finds within
  */
 public class FontManagerImpl implements FontManager {
-    private final String fontsFolder;
-    private final String defaultFontName;
-
     private final Map<String, FontFamily> fontFamilyMap = new HashMap<String, FontFamily>();
     private FontFamily defaultFontFamily;
 
-    public FontManagerImpl(Context context, String fontsFolder, String defaultFontName) {
-        this.fontsFolder = fontsFolder;
-        this.defaultFontName = defaultFontName;
-        init(context);
+    /**
+     * This constructor will initialize a "dumb" version of FontManager that only has the system default fonts available.
+     */
+    public FontManagerImpl() {
+        FontFamily systemDefaultFamily = initSystemDefaultFamily();
+        fontFamilyMap.put(SYSTEM_DEFAULT, systemDefaultFamily);
+        defaultFontFamily = systemDefaultFamily;
+
     }
 
-    private void init(Context context){
-        AssetManager am = context.getAssets();
-        fontFamilyMap.put(SYSTEM_DEFAULT, initSystemDefaultFamily());
+    public FontManagerImpl(Context context, String fontsFolder, String defaultFontName) {
+        this();
+        init(context, fontsFolder, defaultFontName);
+    }
 
+    private void init(Context context, String fontsFolder, String defaultFontName){
         try {
+            AssetManager am = context.getAssets();
             String[] fontFamilies = am.list(fontsFolder);
             for(String fontFamily : fontFamilies){
                 if(am.list(String.format("%s/%s", fontsFolder, fontFamily)).length > 0){
-                    fontFamilyMap.put(fontFamily, initFontFamily(fontFamily, am));
+                    fontFamilyMap.put(fontFamily, initFontFamily(fontsFolder, fontFamily, am));
                 }
             }
-            defaultFontFamily = fontFamilyMap.get(defaultFontName);
         } catch (IOException e) {
-            //no op
+            Log.e("Fontain", "IOException while initializing fonts from assets", e);
         }
 
+        defaultFontFamily = getFontFamily(defaultFontName);
     }
 
     static FontFamily initSystemDefaultFamily() {
@@ -84,12 +88,12 @@ public class FontManagerImpl implements FontManager {
         return family;
     }
 
-    private FontFamily initFontFamily(String fontFamily, AssetManager am) {
+    private FontFamily initFontFamily(String fontsFolder, String fontFamily, AssetManager am) {
         try {
             List<FontImpl> fontList = new ArrayList<FontImpl>();
             String[] fonts = am.list(String.format("%s/%s", fontsFolder, fontFamily));
             for(String font : fonts){
-                FontImpl fontObj = initFont(font, fontFamily, am);
+                FontImpl fontObj = initFont(fontsFolder, fontFamily, font, am);
                 if(fontObj != null){
                     fontList.add(fontObj);
                 }
@@ -105,7 +109,7 @@ public class FontManagerImpl implements FontManager {
     }
 
     @Nullable
-    private FontImpl initFont(String fontName, String familyName, AssetManager am) {
+    private FontImpl initFont(String fontsFolder, String familyName, String fontName, AssetManager am) {
         try {
             Typeface typeface = Typeface.createFromAsset(am, String.format("%s/%s/%s", fontsFolder, familyName, fontName));
             int weight = parseWeight(fontName);
