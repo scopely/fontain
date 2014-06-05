@@ -8,7 +8,6 @@ import android.view.View;
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
-import com.scopely.fontain.impls.DummyFontManager;
 import com.scopely.fontain.impls.FontManagerImpl;
 import com.scopely.fontain.interfaces.Font;
 import com.scopely.fontain.interfaces.FontFamily;

@@ -1,7 +1,5 @@
 package com.scopely.fontain.impls;
 
-import android.graphics.Typeface;
-
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
