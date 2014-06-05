@@ -99,7 +99,7 @@ public class FontViewUtils {
         int textStyle = textStyleArray.getInt(0, Typeface.NORMAL);
         textStyleArray.recycle();
 
-        FontFamily fontFamily = fontManager.getFontFamily(fontFamilyName);
+        FontFamily fontFamily = fontFamilyName != null ? fontManager.getFontFamily(fontFamilyName) : fontManager.getDefaultFontFamily();
         return fontForTextStyle(fontFamily, fontWeight, fontWidth, textStyle);
     }
 
