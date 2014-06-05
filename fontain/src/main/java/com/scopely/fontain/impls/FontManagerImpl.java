@@ -3,6 +3,7 @@ package com.scopely.fontain.impls;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -112,6 +113,7 @@ public class FontManagerImpl implements FontManager {
             boolean italics = parseItalics(fontName);
             return new FontImpl(typeface, weight, width, italics);
         } catch (Exception e) {
+            Log.w("Fontain", String.format("Could not create typeface for %s/%s/%s", fontsFolder, familyName, fontName));
             return null;
         }
     }
@@ -125,6 +127,7 @@ public class FontManagerImpl implements FontManager {
     public FontFamily getFontFamily(String fontFamilyName) {
         FontFamily family = fontFamilyMap.get(fontFamilyName);
         if(family == null) {
+            Log.w("Fontain", String.format("Requested Font Family \"%s\" does not exist, using default Font Family", fontFamilyName));
             family = getDefaultFontFamily();
         }
         return family;
@@ -142,6 +145,7 @@ public class FontManagerImpl implements FontManager {
                 }
             }
         }
+        Log.w("Fontain", "Font could not be found for typeface, returning default font");
         Slope slope = typeface.isItalic() ? Slope.ITALIC : Slope.NORMAL;
         Weight weight = typeface.isBold() ? Weight.BOLD : Weight.NORMAL;
         return getDefaultFontFamily().getFont(weight, Width.NORMAL, slope);
