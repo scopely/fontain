@@ -14,6 +14,8 @@ import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
 
+import java.util.Iterator;
+
 
 public class Main extends Activity {
 
@@ -30,17 +32,40 @@ public class Main extends Activity {
         rotateFonts(container);
     }
 
+    /**
+     *
+     * Assigns a new Font Family to the container view hierarchy every three seconds.
+     * Used to demonstrate how a Font Family can be applied while maintaining weight/width/italic values of each TextView in the hierarchy.
+     * Even when using a Font Family that doesn't have a suitable matching font for a given weight/width/italic combination, the values are maintained should a Font Family with a suitable match later be assigned to the TextView.
+     *
+     * @param container
+     */
     private void rotateFonts(final ViewGroup container) {
-        final String[] fontFamilies = new String[]{"MedievalSharp", "LS", "PTSans"};
-        final int[] index = new int[]{0};
+        final Iterator<String> iterator = new Iterator<String>() {
+            final String[] fontFamilies = new String[]{"MedievalSharp", "LS", "PTSans"};
+            int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return true;
+            }
+
+            @Override
+            public String next() {
+                index++;
+                if(index >= fontFamilies.length) index = 0;
+                return fontFamilies[index];
+            }
+
+            @Override
+            public void remove() {
+                //no op
+            }
+        };
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                Fontain.applyFontFamilyToViewHierarchy(container, Fontain.getFontFamily(fontFamilies[index[0]]));
-                index[0]++;
-                if (index[0] > 2){
-                    index[0] = 0;
-                }
+                Fontain.applyFontFamilyToViewHierarchy(container, Fontain.getFontFamily(iterator.next()));
                 container.postDelayed(this, 3000);
             }
         };
