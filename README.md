@@ -36,7 +36,7 @@ The weight, width and slope information of a particular font will be parsed from
 
 
 ###Initializing
-You must initialize Fontain with a Context and the name of whatever font family you want to be the default.
+You must initialize Fontain with a ```Context``` and the name of whatever font family you want to be the default.
 
 Fontain must be initialized before it is used (including the inflation of any of Fontain's custom Font Views), so that it may create fonts from the assets folder, but it need only be initialized once.
 
