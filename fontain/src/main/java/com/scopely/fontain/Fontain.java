@@ -2,9 +2,13 @@ package com.scopely.fontain;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.method.TransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.android.internal.util.Predicate;
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
@@ -12,6 +16,8 @@ import com.scopely.fontain.impls.FontManagerImpl;
 import com.scopely.fontain.interfaces.Font;
 import com.scopely.fontain.interfaces.FontFamily;
 import com.scopely.fontain.interfaces.FontManager;
+
+import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -99,6 +105,22 @@ public class Fontain {
      */
     public static void applyFontFamilyToViewHierarchy(View view, FontFamily family){
         getFontManager().applyFontFamilyToViewHierarchy(view, family);
+    }
+
+    public static void applyTransformationToViewHierarchy(View view, TransformationMethod method) {
+        applyTransformationToViewHierarchy(view, method, null);
+    }
+
+    public static void applyTransformationToViewHierarchy(View view, TransformationMethod method, @Nullable Predicate<TextView> predicate) {
+        if(view instanceof ViewGroup){
+            for(int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
+                applyTransformationToViewHierarchy(((ViewGroup) view).getChildAt(i), method);
+            }
+        } else if(view instanceof TextView) {
+            if(predicate == null || predicate.apply((TextView) view)){
+                ((TextView) view).setTransformationMethod(method);
+            }
+        }
     }
 
     public static FontFamily getDefaultFontFamily(){
