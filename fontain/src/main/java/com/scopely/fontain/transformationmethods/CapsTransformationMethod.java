@@ -11,7 +11,8 @@ public enum CapsTransformationMethod implements TransformationMethod {
     NONE,
     CHARACTER,
     WORD,
-    SENTENCE
+    SENTENCE,
+    TITLE //Title is only available in English. In all other languages it will default to WORD
     ;
 
     @Override

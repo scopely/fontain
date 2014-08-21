@@ -1,5 +1,6 @@
 package com.scopely.fontain.utils;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -21,6 +22,10 @@ import com.scopely.fontain.transformationmethods.CapsTransformationMethod;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 /**
  *
  * A class that contains numerous static methods that facilitate the functions of any Font Views
@@ -31,6 +36,7 @@ public class FontViewUtils {
     public static final int CAPS_MODE_CHARACTERS = 1;
     public static final int CAPS_MODE_WORDS = 2;
     public static final int CAPS_MODE_SENTENCES = 3;
+    public static final int CAPS_MODE_TITLE = 4;
     public static final int CAPS_MODE_NONE = 0;
 
     /**
@@ -163,6 +169,7 @@ public class FontViewUtils {
                 reqModes = TextUtils.CAP_MODE_CHARACTERS;
                 break;
             case CAPS_MODE_WORDS:
+            case CAPS_MODE_TITLE:
                 reqModes = TextUtils.CAP_MODE_WORDS;
                 break;
             case CAPS_MODE_SENTENCES:
@@ -171,8 +178,9 @@ public class FontViewUtils {
         }
         char[] transformed = new char[text.length()];
         for(int offset = 0; offset < text.length(); offset++){
-            if((reqModes & TextUtils.getCapsMode(text, offset, reqModes)) == reqModes
-                    || (offset == 0 && (reqModes & TextUtils.CAP_MODE_SENTENCES) == TextUtils.CAP_MODE_SENTENCES )){ // This is required because getCapsMode returns incorrectly on the first character with CAP_MODE_SENTENCES
+            if(((reqModes & TextUtils.getCapsMode(text, offset, reqModes)) == reqModes
+                    || (offset == 0 && (reqModes & TextUtils.CAP_MODE_SENTENCES) == TextUtils.CAP_MODE_SENTENCES )) // This is required because getCapsMode returns incorrectly on the first character with CAP_MODE_SENTENCES
+                    && !isTitleCaseExcluded(capsMode, text, offset)){
                 transformed[offset] = Character.toUpperCase(text.charAt(offset));
             } else {
                 transformed[offset] = text.charAt(offset);
@@ -187,6 +195,20 @@ public class FontViewUtils {
         } else {
             return s;
         }
+    }
+
+    private static boolean isTitleCaseExcluded(int capsMode, CharSequence text, int offset) {
+        if (capsMode == CAPS_MODE_TITLE && Locale.getDefault().getLanguage().equals("en")) {
+            if (offset == 0 || Character.isSpaceChar(text.charAt(offset - 1))) {
+                for (int i = 1; i < 4 && offset + i < text.length(); i++) {
+                    if (Character.isSpaceChar(text.charAt(offset + i))) {
+                        String string = new StringBuilder().append(text, offset, offset + i).toString();
+                        return ExcludedWords.en.contains(string);
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     //Introspects a TextView and ensures that the relevant tags for font, weight, width, and slope have been set.
