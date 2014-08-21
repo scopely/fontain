@@ -4,11 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ToggleButton;
 
-import org.jetbrains.annotations.NotNull;
-
 import static com.scopely.fontain.Fontain.getFontManager;
 import static com.scopely.fontain.utils.FontViewUtils.initialize;
-import static com.scopely.fontain.utils.FontViewUtils.typefaceFromTextAppearance;
 
 /**
  *
@@ -30,11 +27,5 @@ public class FontToggleButton extends ToggleButton {
     public FontToggleButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initialize(this, context, attrs, getFontManager());
-    }
-
-    @Override
-    public void setTextAppearance(@NotNull Context context, int resid) {
-        super.setTextAppearance(context, resid);
-        setTypeface(typefaceFromTextAppearance(context, resid, getFontManager()));
     }
 }
