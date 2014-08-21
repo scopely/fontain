@@ -8,33 +8,27 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
         classpath 'com.github.goldin.plugins.gradle:about:0.3'
-        classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
+//        classpath 'com.novoda.gradle:robolectric-plugin:0.0.1-SNAPSHOT'
     }
 }
 
 repositories {
     mavenCentral()
-    maven {
-        credentials {
-            username artifactoryUser
-            password artifactoryPassword
-        }
-        url "https://scopelybin.artifactoryonline.com/scopelybin/repo"
-    }
 
     maven {
         url 'https://oss.sonatype.org/content/repositories/snapshots/'
     }
 }
 
-apply plugin: 'android-library'
-apply plugin: 'robolectric'
+apply plugin: 'com.android.library'
+//apply plugin: 'robolectric'
 apply plugin: 'maven'
 apply plugin: 'about'
 
-version = '0.1'
+version = VERSION_NAME
+group = GROUP
 
 about {
     includeDependencies = ['compile', 'runtime']
@@ -42,8 +36,8 @@ about {
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    compileSdkVersion 20
+    buildToolsVersion "20"
 
     defaultConfig {
         minSdkVersion 14
@@ -66,27 +60,8 @@ android {
 
 dependencies {
     compile 'com.intellij:annotations:12.0'
-    robolectricCompile 'junit:junit:4.11'
-    robolectricCompile 'org.robolectric:robolectric:2.2'
+//    robolectricCompile 'junit:junit:4.11'
+//    robolectricCompile 'org.robolectric:robolectric:2.2'
 }
 
-uploadArchives {
-    configuration = configurations.archives
-
-    repositories {
-        // the maven plugin features this deployer
-        mavenDeployer {
-            // we deploy to the release repository in this case
-            repository(url: artifactoryHost) {
-                authentication(userName: artifactoryUser, password: artifactoryPassword)
-            }
-            pom.project {
-                artifactId 'fontain'
-                name 'Fontain'
-                description 'Font Utils for Android'
-                packaging 'aar'
-                url 'https://github.com/scopely/fontain'
-            }
-        }
-    }
-}
+apply from: 'maven_push.gradle'
