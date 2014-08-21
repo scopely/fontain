@@ -1,6 +1,5 @@
 package com.scopely.fontain.utils;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -22,8 +21,6 @@ import com.scopely.fontain.transformationmethods.CapsTransformationMethod;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 
 /**
