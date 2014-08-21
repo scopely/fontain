@@ -155,36 +155,57 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <com.scopely.fontain.views.FontTextView
+            android:text="caps mode: a mode of title"
+            app:caps_mode="title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.scopely.fontain.views.FontTextView
             android:text="caps mode: characters"
             app:caps_mode="characters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <LinearLayout
-            android:id="@+id/textViewContainer"
-            android:orientation="vertical"
+        <com.scopely.fontain.views.FontTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="TextView Normal"
+            android:layout_height="wrap_content"
+            android:id="@+id/spannedTextView"
+            android:text="@string/three_different_fontspans"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background"
+            android:orientation="vertical">
+            <com.scopely.fontain.views.FontTextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="TextView Italic"
-                android:textStyle="italic"
+                android:layout_height="wrap_content"
+                android:text="Changing Font Families:"/>
+            <LinearLayout
+                android:id="@+id/textViewContainer"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="TextView Bold"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="TextView Bold Italic"
-                android:textStyle="bold|italic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="TextView Normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="TextView Italic"
+                    android:textStyle="italic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="TextView Bold"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="TextView Bold Italic"
+                    android:textStyle="bold|italic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
+
 
 
     </LinearLayout>

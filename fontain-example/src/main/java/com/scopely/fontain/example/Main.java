@@ -2,17 +2,17 @@ package com.scopely.fontain.example;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.scopely.fontain.Fontain;
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
+import com.scopely.fontain.spans.FontSpan;
 
 import java.util.Iterator;
 
@@ -30,6 +30,18 @@ public class Main extends Activity {
 
         ViewGroup container = (ViewGroup) findViewById(R.id.textViewContainer);
         rotateFonts(container);
+
+        TextView spannedTextView = (TextView) findViewById(R.id.spannedTextView);
+        spannedTextView.setText(getFontSpannableExampleText());
+    }
+
+    private CharSequence getFontSpannableExampleText() {
+        String string = getString(R.string.three_different_fontspans);
+        SpannableString spannableString = new SpannableString(string);
+        spannableString.setSpan(new FontSpan(Fontain.getFontFamily("MedievalSharp").getFont(Weight.NORMAL, Width.NORMAL, Slope.NORMAL)), 0, 5, 0);
+        spannableString.setSpan(new FontSpan(Fontain.getFontFamily("LS").getFont(Weight.NORMAL, Width.NORMAL, Slope.NORMAL)), 6, 15, 0);
+        spannableString.setSpan(new FontSpan(Fontain.getFontFamily("PTSans").getFont(Weight.NORMAL, Width.NORMAL, Slope.NORMAL)), 16, 24, 0);
+        return spannableString;
     }
 
     /**
