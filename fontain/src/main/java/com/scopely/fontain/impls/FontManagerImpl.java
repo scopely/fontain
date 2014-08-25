@@ -19,11 +19,13 @@ package com.scopely.fontain.impls;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.text.method.TransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.internal.util.Predicate;
 import com.scopely.fontain.R;
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
@@ -172,35 +174,52 @@ public class FontManagerImpl implements FontManager {
     }
 
     @Override
-    public void applyFontToViewHierarchy(View view, Font font) {
+    public void applyFontToViewHierarchy(View view, Font font, @Nullable Predicate<TextView> predicate) {
         if(view instanceof ViewGroup){
             for(int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
-                applyFontToViewHierarchy(((ViewGroup) view).getChildAt(i), font);
+                applyFontToViewHierarchy(((ViewGroup) view).getChildAt(i), font, predicate);
             }
         } else if(view instanceof TextView) {
-            FontViewUtils.ensureTags((TextView) view, this);
-            ((TextView) view).setTypeface(font.getTypeFace());
+            if(predicate == null || predicate.apply((TextView) view)) {
+                FontViewUtils.ensureTags((TextView) view, this);
+                ((TextView) view).setTypeface(font.getTypeFace());
+            }
         }
     }
 
     @Override
-    public void applyFontFamilyToViewHierarchy(View view, FontFamily family) {
+    public void applyFontFamilyToViewHierarchy(View view, FontFamily family, @Nullable Predicate<TextView> predicate) {
         if(view instanceof ViewGroup){
             for(int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
-                applyFontFamilyToViewHierarchy(((ViewGroup) view).getChildAt(i), family);
+                applyFontFamilyToViewHierarchy(((ViewGroup) view).getChildAt(i), family, predicate);
             }
         } else if(view instanceof TextView) {
             TextView textView = (TextView) view;
 
-            FontViewUtils.ensureTags(textView, this);
+            if(predicate == null || predicate.apply(textView)) {
+                FontViewUtils.ensureTags(textView, this);
 
-            Integer weight = (Integer) textView.getTag(R.id.fontain_tag_weight);
-            Integer width = (Integer) textView.getTag(R.id.fontain_tag_width);
-            Boolean slope = (Boolean) textView.getTag(R.id.fontain_tag_slope);
+                Integer weight = (Integer) textView.getTag(R.id.fontain_tag_weight);
+                Integer width = (Integer) textView.getTag(R.id.fontain_tag_width);
+                Boolean slope = (Boolean) textView.getTag(R.id.fontain_tag_slope);
 
-            Font newFont = family.getFont(weight, width, slope);
-            textView.setTag(R.id.fontain_tag_font, newFont);
-            textView.setTypeface(newFont.getTypeFace());
+                Font newFont = family.getFont(weight, width, slope);
+                textView.setTag(R.id.fontain_tag_font, newFont);
+                textView.setTypeface(newFont.getTypeFace());
+            }
+        }
+    }
+
+    @Override
+    public void applyTransformationToViewHierarchy(View view, TransformationMethod method, @Nullable Predicate<TextView> predicate) {
+        if(view instanceof ViewGroup){
+            for(int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
+                applyTransformationToViewHierarchy(((ViewGroup) view).getChildAt(i), method, predicate);
+            }
+        } else if(view instanceof TextView) {
+            if(predicate == null || predicate.apply((TextView) view)){
+                ((TextView) view).setTransformationMethod(method);
+            }
         }
     }
 }

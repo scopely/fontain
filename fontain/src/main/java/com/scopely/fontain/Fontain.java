@@ -68,47 +68,62 @@ public class Fontain {
     }
 
     public static void init(Context context) {
-        init(context, FONT_FOLDER, SYSTEM_DEFAULT);
+        init(context, SYSTEM_DEFAULT);
     }
 
     public static void init(Context context, String defaultFontName) {
         init(context, FONT_FOLDER, defaultFontName);
     }
 
-    public static void init(Context context, String fontsFolder, int defaultFontResId) {
-        init(context,fontsFolder, context.getString(defaultFontResId));
+    public static void applyFontToViewHierarchy(View root, int weight, int width, boolean italic) {
+        applyFontToViewHierarchy(root, weight, width, italic, null);
     }
 
-    public static void init(Context context, int defaultFontResId) {
-        init(context, FONT_FOLDER, context.getString(defaultFontResId));
+    public static void applyFontToViewHierarchy(View root, Weight weight, Width width, Slope italic){
+        applyFontToViewHierarchy(root, getFontManager().getDefaultFontFamily(), weight, width, italic, null);
     }
 
-    public static void applyFontToViewHierarchy(View view, int weight, int width, boolean italic) {
-        applyFontToViewHierarchy(view, getFontManager().getDefaultFontFamily(), weight, width, italic);
+    public static void applyFontToViewHierarchy(View root, FontFamily fontFamily, Weight weight, Width width, Slope italic){
+        applyFontToViewHierarchy(root, fontFamily, weight.value, width.value, italic.value, null);
     }
 
-    public static void applyFontToViewHierarchy(View view, Weight weight, Width width, Slope italic){
-        applyFontToViewHierarchy(view, getFontManager().getDefaultFontFamily(), weight, width, italic);
+    public static void applyFontToViewHierarchy(View root, FontFamily fontFamily, int weight, int width, boolean italic){
+        applyFontToViewHierarchy(root, fontFamily, weight, width, italic, null);
     }
 
-    public static void applyFontToViewHierarchy(View view, FontFamily fontFamily, Weight weight, Width width, Slope italic){
-        applyFontToViewHierarchy(view, fontFamily, weight.value, width.value, italic.value);
+    public static void applyFontToViewHierarchy(View root, Font font){
+        applyFontToViewHierarchy(root, font, null);
     }
 
-    public static void applyFontToViewHierarchy(View view, FontFamily fontFamily, int weight, int width, boolean italic){
+    public static void applyFontToViewHierarchy(View root, int weight, int width, boolean italic, @Nullable Predicate<TextView> predicate) {
+        applyFontToViewHierarchy(root, getFontManager().getDefaultFontFamily(), weight, width, italic, predicate);
+    }
+
+    public static void applyFontToViewHierarchy(View root, Weight weight, Width width, Slope italic, @Nullable Predicate<TextView> predicate){
+        applyFontToViewHierarchy(root, getFontManager().getDefaultFontFamily(), weight, width, italic, predicate);
+    }
+
+    public static void applyFontToViewHierarchy(View root, FontFamily fontFamily, Weight weight, Width width, Slope italic, @Nullable Predicate<TextView> predicate){
+        applyFontToViewHierarchy(root, fontFamily, weight.value, width.value, italic.value, predicate);
+    }
+
+    public static void applyFontToViewHierarchy(View root, FontFamily fontFamily, int weight, int width, boolean italic, @Nullable Predicate<TextView> predicate){
         Font font = fontFamily.getFont(weight, width, italic);
-        applyFontToViewHierarchy(view, font);
+        applyFontToViewHierarchy(root, font, predicate);
     }
 
     /**
      *
      * Walks the given view hierarchy and applies the given font to every TextView therein
      *
-     * @param view the View hierarchy to walk
+     * @param root the View hierarchy to walk
      * @param font the font to apply
+     * @param predicate an optional predicate to check each TextView within the hierarchy against.
+     *                  Returning true will apply the font to a given TextView.
+     *                  Returning false will skip a given TextView and leave it as is.
      */
-    public static void applyFontToViewHierarchy(View view, Font font){
-        getFontManager().applyFontToViewHierarchy(view, font);
+    public static void applyFontToViewHierarchy(View root, Font font, @Nullable Predicate<TextView> predicate){
+        getFontManager().applyFontToViewHierarchy(root, font, null);
     }
 
     /**
@@ -116,27 +131,36 @@ public class Fontain {
      * Walks the given view hiearchy and applies the font within the provided font family that best matches each TextView therein.
      * Acts similarly to {@link applyFontToViewHierarchy}, but maintains weight, width and slope for each TextView it encounters.
      *
-     * @param view the View hierarchy to walk
+     * @param root the View hierarchy to walk
      * @param family the font family to apply
+     * @param predicate an optional predicate to check each TextView within the hierarchy against.
+     *                  Returning true will apply the font family to a given TextView.
+     *                  Returning false will skip a given TextView and leave it as is.
      */
-    public static void applyFontFamilyToViewHierarchy(View view, FontFamily family){
-        getFontManager().applyFontFamilyToViewHierarchy(view, family);
+    public static void applyFontFamilyToViewHierarchy(View root, FontFamily family, @Nullable Predicate<TextView> predicate){
+        getFontManager().applyFontFamilyToViewHierarchy(root, family, predicate);
+    }
+
+    public static void applyFontFamilyToViewHierarchy(View root, FontFamily family) {
+        applyFontFamilyToViewHierarchy(root, family, null);
     }
 
     public static void applyTransformationToViewHierarchy(View view, TransformationMethod method) {
         applyTransformationToViewHierarchy(view, method, null);
     }
 
-    public static void applyTransformationToViewHierarchy(View view, TransformationMethod method, @Nullable Predicate<TextView> predicate) {
-        if(view instanceof ViewGroup){
-            for(int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
-                applyTransformationToViewHierarchy(((ViewGroup) view).getChildAt(i), method);
-            }
-        } else if(view instanceof TextView) {
-            if(predicate == null || predicate.apply((TextView) view)){
-                ((TextView) view).setTransformationMethod(method);
-            }
-        }
+    /**
+     * Walks the given view hiearchy and applies the provided TransformationMethod.
+     * Acts similarly to {@link applyFontToViewHierarchy}, but only applies to TransformationMethod.
+     *
+     * @param root the View hierarchy to walk
+     * @param method the TransformationMethod to apply
+     * @param predicate an optional predicate to check each TextView within the hierarchy against.
+     *                  Returning true will apply the TransformationMethod to a given TextView.
+     *                  Returning false will skip a given TextView and leave it as is.
+     */
+    public static void applyTransformationToViewHierarchy(View root, TransformationMethod method, @Nullable Predicate<TextView> predicate) {
+        getFontManager().applyTransformationToViewHierarchy(root, method, predicate);
     }
 
     public static FontFamily getDefaultFontFamily(){

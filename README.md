@@ -44,8 +44,7 @@ Fontain can be initialized with any one of the overloaded init methods:
 ```java
 Fontain.init(Context context, String fontsFolder, String defaultFontName)
 Fontain.init(Context context, String defaultFontName)
-Fontain.init(Context context, String fontsFolder, int defaultFontResId)
-Fontain.init(Context context, int defaultFontResId)
+Fontain.init(Context context)
 ```
 
 Your application's onCreate() method is the recommended place to initialize Fontain.
@@ -83,16 +82,24 @@ All of the Font Views include the ability to set a Caps Mode. Doing so will init
 Fontain also contains methods for walking a view hierarchy and applying a given typeface to any TextView contained therein. Fontain provides several overloaded methods that achieve the same thing:
 
 ```java
-Fontain.applyFontToViewHierarchy(View view, int weight, int width, boolean italic)
-Fontain.applyFontToViewHierarchy(View view, FontFamily fontFamily, int weight, int width, boolean italic)
-Fontain.applyFontToViewHierarchy(View view, Font font)
+Fontain.applyFontToViewHierarchy(View root, int weight, int width, boolean italic)
+Fontain.applyFontToViewHierarchy(View root, FontFamily fontFamily, int weight, int width, boolean italic)
+Fontain.applyFontToViewHierarchy(View root, Font font)
 ```
 Fontain also has a method that will apply a font family across a view hierarchy. Whereas the above methods will apply a single font to all views in the hierarchy, the below method will select the font that best matches the view's pre-existing weight, width and slope attributes.
 
 ```java
-Fontain.applyFontFamilyToViewHierarchy(View view, FontFamily family)
+Fontain.applyFontFamilyToViewHierarchy(View root, FontFamily family)
 ```
+Similar to the above two methods, there is also a method to apply a ```TransformationMethod``` (such as one of the caps modes) to a View hierarchy:
+
+```java
+Fontain.applyTransformationToViewHierarchy(View root, TransformationMethod)
+```
+
 The use case for these methods is generally when the layout in question is provided by the system (eg: AlertDialog) or a third party library (eg: https://github.com/JakeWharton/Android-ViewPagerIndicator)
+
+Each of these methods also has an overloaded version that takes a ```Predicate<TextView>``` that allows you to introspect each TextView in the hierarchy and return ```true``` to apply the Font/FontFamily/TransformationMethod, or ```false``` to skip the TextView in question.
 
 ##Spans
 Fontain also provides the following spans that allow you to change font within a single TextView:

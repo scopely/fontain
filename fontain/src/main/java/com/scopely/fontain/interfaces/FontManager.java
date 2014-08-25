@@ -17,7 +17,13 @@
 package com.scopely.fontain.interfaces;
 
 import android.graphics.Typeface;
+import android.text.method.TransformationMethod;
 import android.view.View;
+import android.widget.TextView;
+
+import com.android.internal.util.Predicate;
+
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A FontManager manages all the FontFamilies and associated Fonts available.
@@ -32,7 +38,9 @@ public interface FontManager {
 
     Font getFont(Typeface typeface);
 
-    void applyFontToViewHierarchy(View view, Font font);
+    void applyFontToViewHierarchy(View view, Font font, @Nullable Predicate<TextView> predicate);
 
-    void applyFontFamilyToViewHierarchy(View view, FontFamily family);
+    void applyFontFamilyToViewHierarchy(View view, FontFamily family, @Nullable Predicate<TextView> predicate);
+
+    void applyTransformationToViewHierarchy(View view, TransformationMethod method, @Nullable Predicate<TextView> predicate);
 }
