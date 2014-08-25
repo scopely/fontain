@@ -24,7 +24,7 @@ public class Main extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fontain.init(this, R.string.default_font_family);
+        Fontain.init(this, getString(R.string.default_font_family));
         Fontain.applyFontToViewHierarchy(getActionBarView(), Fontain.getFontFamily("MedievalSharp"), Weight.NORMAL, Width.NORMAL, Slope.NORMAL);
         setContentView(R.layout.activity_main);
 
