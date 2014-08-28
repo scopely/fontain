@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.android.internal.util.Predicate;
 import com.scopely.fontain.Fontain;
 import com.scopely.fontain.enums.Slope;
 import com.scopely.fontain.enums.Weight;
@@ -33,6 +34,25 @@ public class Main extends Activity {
 
         TextView spannedTextView = (TextView) findViewById(R.id.spannedTextView);
         spannedTextView.setText(getFontSpannableExampleText());
+
+        ViewGroup predicateContainer = (ViewGroup) findViewById(R.id.predicateContainer);
+        setFontWithPredicate(predicateContainer);
+    }
+
+    /**
+     *
+     * Assigns the MedievalSharp font family to any TextView within root that matches the predicate.
+     * The predicate in this case is if the TextView's text is the string 'Yes'
+     *
+     * @param root
+     */
+    private void setFontWithPredicate(ViewGroup root) {
+        Fontain.applyFontFamilyToViewHierarchy(root, Fontain.getFontFamily("MedievalSharp"), new Predicate<TextView>() {
+            @Override
+            public boolean apply(TextView textView) {
+                return "Yes".equals(textView.getText().toString());
+            }
+        });
     }
 
     private CharSequence getFontSpannableExampleText() {
