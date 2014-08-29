@@ -7,6 +7,12 @@ Fontain allows you to include a number of custom fonts within your app, and then
 
 ##Usage
 
+###Gradle
+
+```groovy
+compile 'com.scopely:fontain:0.1.0'
+```
+
 ###Setup
 
 In order for Fontain to be able to make use of your custom fonts, they must be placed in the Assets folder, with the following directory structure:
@@ -55,7 +61,7 @@ Fontain can be used primarily in one of two ways:
 
 ####Font Views
 
-Fontain provides a number of Font Views that are extended from Android's basic text views (TextView => FontTextView, Button => FontButton, etc). You can use these views exactly as you would use the regular android version, and on creation they will seek out the default Typeface from Fontain and apply it to themselves. Additionally these views come with custom XML attributes that allow you to specify the Font Family, Weight, Width and/or Caps Mode directly in layout XML (Slope is taken from Android's native TextStyle attribute). Example usage:
+Fontain provides a number of Font Views that are extended from Android's basic text views (```TextView``` => ```FontTextView```, ```Button``` => ```FontButton```, etc). You can use these views exactly as you would use the regular android version, and on creation they will seek out the default Typeface from Fontain and apply it to themselves. Additionally these views come with custom XML attributes that allow you to specify the Font Family, Weight, Width and/or Caps Mode directly in layout XML (Slope is taken from Android's native TextStyle attribute). Example usage:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -76,7 +82,9 @@ Fontain provides a number of Font Views that are extended from Android's basic t
 ```
 
 #####Caps Mode
-All of the Font Views include the ability to set a Caps Mode. Doing so will initialize the view with a ```TransformationMethod``` that will display the text of the view with certain letters capitalized. Caps Mode ```characters``` will capitalize all letters, Caps Mode ```words``` will capitalize the first letter of each word, and Caps Mode ```sentences``` will capitalize the first letter of each sentence. It is analagous to, and is implemented with, Android's ```TextUtils.CAP_MODE_XXXXX```, but with more granular control in xml than merely ```android:textAllCaps```.
+All of the Font Views include the ability to set a Caps Mode. Doing so will initialize the view with a ```TransformationMethod``` that will display the text of the view with certain letters capitalized. Caps Mode ```characters``` will capitalize all letters, Caps Mode ```words``` will capitalize the first letter of each word, and Caps Mode ```sentences``` will capitalize the first letter of each sentence. Caps Mode ```title``` is equivalent to ```words``` except that certain words, such as 'a', 'of', etc, are not capitalized*. Caps Mode is analagous to, and is implemented with, Android's ```TextUtils.CAP_MODE_XXXXX```, but with more granular control in xml than merely ```android:textAllCaps```.
+
+*\*Caps Mode ```title``` is only applicable to English. In non-'en' locales, Caps Mode ```title``` will behave the same as Caps Mode``` words```.*
 
 ####Apply to View Hierarchy
 Fontain also contains methods for walking a view hierarchy and applying a given typeface to any TextView contained therein. Fontain provides several overloaded methods that achieve the same thing:
