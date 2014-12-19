@@ -23,6 +23,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.scopely.fontain.Fontain;
@@ -65,8 +66,10 @@ public class FontViewUtils {
             return;
         }
         Font font = fontFromAttributeSet(context, attributeSet, fontManager);
-        CapsTransformationMethod method = capsModeFromAttributeSet(context, attributeSet);
-        view.setTransformationMethod(method);
+        if(!isPasswordInputType(view)) {
+            CapsTransformationMethod method = capsModeFromAttributeSet(context, attributeSet);
+            view.setTransformationMethod(method);
+        }
         view.setTypeface(font.getTypeFace());
 
         view.setTag(R.id.fontain_tag_slope, font.getSlope());
@@ -258,5 +261,17 @@ public class FontViewUtils {
 
     public static boolean isItalic(int textStyle) {
         return (textStyle & Typeface.ITALIC) != 0;
+    }
+
+    //Checks to see if the provided TextView is configured to contain a password.
+    private static boolean isPasswordInputType(TextView view) {
+        final int variation =
+                view.getInputType() & (EditorInfo.TYPE_MASK_CLASS | EditorInfo.TYPE_MASK_VARIATION);
+        return variation
+                == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD)
+                || variation
+                == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD)
+                || variation
+                == (EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD);
     }
 }
