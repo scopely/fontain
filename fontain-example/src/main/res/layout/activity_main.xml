@@ -244,5 +244,23 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/background"
+            android:orientation="vertical">
+            <com.scopely.fontain.views.FontEditText
+                android:hint="Input"
+                app:font_family="MedievalSharp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.scopely.fontain.views.FontEditText
+                android:hint="Password"
+                app:font_family="LS"
+                android:inputType="textPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
