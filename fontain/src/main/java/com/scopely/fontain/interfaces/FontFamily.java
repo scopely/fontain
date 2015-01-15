@@ -30,4 +30,5 @@ public interface FontFamily {
     public Font getFont(int weight, int width, boolean italic);
     public Font getFont(Weight weight, Width width, Slope slope);
     public List<? extends Font> getFonts();
+    public String getName();
 }

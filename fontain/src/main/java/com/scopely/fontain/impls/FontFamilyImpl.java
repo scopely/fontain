@@ -73,4 +73,9 @@ public class FontFamilyImpl implements FontFamily {
 
         return (int) (1500 - Math.sqrt(weightDiff*weightDiff + widthDiff*widthDiff + slopeDiff*slopeDiff));
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 }
