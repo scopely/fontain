@@ -25,6 +25,8 @@ import com.android.internal.util.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+
 /**
  * A FontManager manages all the FontFamilies and associated Fonts available.
  * It provides a default FontFamily and provides methods for accessing any other FontFamily by name.
@@ -35,6 +37,8 @@ public interface FontManager {
     FontFamily getDefaultFontFamily();
 
     FontFamily getFontFamily(String fontFamilyName);
+
+    Collection<FontFamily> getAllFontFamilies();
 
     Font getFont(Typeface typeface);
 
