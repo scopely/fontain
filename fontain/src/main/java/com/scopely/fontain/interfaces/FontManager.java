@@ -25,6 +25,7 @@ import com.android.internal.util.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.Collection;
 
 /**
@@ -41,6 +42,8 @@ public interface FontManager {
     Collection<FontFamily> getAllFontFamilies();
 
     Font getFont(Typeface typeface);
+
+    FontFamily addFontFamilyFromFiles(String fontFamilyName, File... files);
 
     void applyFontToViewHierarchy(View view, Font font, @Nullable Predicate<TextView> predicate);
 

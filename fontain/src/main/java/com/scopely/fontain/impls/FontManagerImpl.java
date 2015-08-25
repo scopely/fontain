@@ -37,6 +37,7 @@ import com.scopely.fontain.utils.FontViewUtils;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -178,6 +179,41 @@ public class FontManagerImpl implements FontManager {
         Slope slope = typeface.isItalic() ? Slope.ITALIC : Slope.NORMAL;
         Weight weight = typeface.isBold() ? Weight.BOLD : Weight.NORMAL;
         return getDefaultFontFamily().getFont(weight, Width.NORMAL, slope);
+    }
+
+    @Override
+    public FontFamily addFontFamilyFromFiles(String fontFamilyName, File... files) {
+        FontFamily family = initFontFamily(fontFamilyName, files);
+        fontFamilyMap.put(fontFamilyName, family);
+        return family;
+    }
+
+    private FontFamily initFontFamily(String fontFamily, File... files) {
+        List<FontImpl> fontList = new ArrayList<FontImpl>();
+        for(File file : files){
+            FontImpl fontObj = initFont(file, file.getName());
+            if(fontObj != null){
+                fontList.add(fontObj);
+            }
+        }
+        FontFamily family = new FontFamilyImpl(fontFamily, fontList);
+        for(FontImpl font : fontList) {
+            font.setFamily(family);
+        }
+        return family;
+    }
+
+    private FontImpl initFont(File file, String fontName) {
+        try {
+            Typeface typeface = Typeface.createFromFile(file);
+            int weight = parseWeight(fontName);
+            int width = parseWidth(fontName);
+            boolean italics = parseItalics(fontName);
+            return new FontImpl(typeface, weight, width, italics);
+        } catch (Exception e) {
+            Log.w("Fontain", String.format("Could not create typeface for %s/%s", file, fontName));
+            return null;
+        }
     }
 
     @Override

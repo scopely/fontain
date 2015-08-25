@@ -21,7 +21,6 @@ import android.graphics.Typeface;
 import android.text.method.TransformationMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.internal.util.Predicate;
@@ -34,6 +33,8 @@ import com.scopely.fontain.interfaces.FontFamily;
 import com.scopely.fontain.interfaces.FontManager;
 
 import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
 
 
 /**
@@ -173,5 +174,13 @@ public class Fontain {
 
     public static Font getFont(Typeface typeface) {
         return getFontManager().getFont(typeface);
+    }
+
+    public static FontFamily addFontFamilyFromDir(String fontFamily, File dir) {
+        return getFontManager().addFontFamilyFromFiles(fontFamily, dir.listFiles());
+    }
+
+    public static FontFamily addFontFamilyFromFiles(String fontFamilyName, File... files) {
+        return getFontManager().addFontFamilyFromFiles(fontFamilyName, files);
     }
 }
