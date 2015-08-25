@@ -29,6 +29,7 @@ import java.util.List;
  * Implementation of {@link com.scopely.fontain.interfaces.FontFamily}
  */
 public class FontFamilyImpl implements FontFamily {
+    private static final int PERFECT_MATCH_SCORE = 1500;
     List<? extends Font> fonts;
     String name;
 
@@ -48,6 +49,9 @@ public class FontFamilyImpl implements FontFamily {
         int bestMatchScore = 0;
         for(Font font : fonts){
             int matchScore = matchFunction(weight, width, italic, font.getWeight(), font.getWidth(), font.getSlope());
+            if(matchScore == PERFECT_MATCH_SCORE) {
+                return font;
+            }
             if (matchScore > bestMatchScore){
                 bestMatchScore = matchScore;
                 bestMatch = font;
@@ -71,7 +75,7 @@ public class FontFamilyImpl implements FontFamily {
         int widthDiff = (targetWidth - width) * 200;
         int slopeDiff = targetSlope == slope ? 0 : 800;
 
-        return (int) (1500 - Math.sqrt(weightDiff*weightDiff + widthDiff*widthDiff + slopeDiff*slopeDiff));
+        return (int) (PERFECT_MATCH_SCORE - Math.sqrt(weightDiff*weightDiff + widthDiff*widthDiff + slopeDiff*slopeDiff));
     }
 
     @Override
