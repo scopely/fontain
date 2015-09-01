@@ -15,17 +15,19 @@ import com.scopely.fontain.enums.Weight;
 import com.scopely.fontain.enums.Width;
 import com.scopely.fontain.spans.FontSpan;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Iterator;
 
 
 public class Main extends Activity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fontain.init(this, getString(R.string.default_font_family));
+        Fontain.addFontFamilyFromDir("MedievalSharp", mockDir());
         Fontain.applyFontToViewHierarchy(getActionBarView(), Fontain.getFontFamily("MedievalSharp"), Weight.NORMAL, Width.NORMAL, Slope.NORMAL);
         setContentView(R.layout.activity_main);
 
@@ -37,6 +39,27 @@ public class Main extends Activity {
 
         ViewGroup predicateContainer = (ViewGroup) findViewById(R.id.predicateContainer);
         setFontWithPredicate(predicateContainer);
+    }
+
+    private File mockDir() {
+        File dir = new File(getCacheDir(),"MedievalSharp");
+        if (!dir.exists()) try {
+            dir.mkdirs();
+            for(String path : getAssets().list("extra/MedievalSharp")){
+                File f = new File(dir, path);
+                InputStream is = getAssets().open("extra/MedievalSharp/"+path);
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+
+                FileOutputStream fos = new FileOutputStream(f);
+                fos.write(buffer);
+                fos.close();
+            }
+
+        } catch (Exception e) { throw new RuntimeException(e); }
+        return dir;
     }
 
     /**
