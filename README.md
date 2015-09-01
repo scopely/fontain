@@ -10,7 +10,7 @@ Fontain allows you to include a number of custom fonts within your app, and then
 ###Gradle
 
 ```groovy
-compile 'com.scopely:fontain:0.1.2'
+compile 'com.scopely:fontain:1.0.0'
 ```
 
 ###Setup
